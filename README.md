@@ -2,7 +2,7 @@
 
 [TOC]
 
-##1. Plugins
+##1 Plugins
 
 ### 1.1 vim-surround
 
@@ -53,7 +53,7 @@ foo quu*x baz |    yss"        | "foo quux baz"
 foo quu*x baz  |   ySS"        | "foo quux baz
 
 #####ds 命令 代表  delete surround
-只需`ds`即可
+只需`ds(surrounding)`即可 不加()
 
 ---
 
@@ -61,9 +61,16 @@ foo quu*x baz  |   ySS"        | "foo quux baz
 
 1. `<leader>cc`  注释当前行和选中行
 2. `<leader>cu`  取消当前行的注释
-3. `<leader>cs`  以批量注释方式注释当前行 
-4. `<leader>ci`   执行反注释操作  即注释未被注释的  取消注释 已被注释的
-5. `<leader>ca`  转换默认的注释方式   即单行注释和批量注释
+3. `<leader>cs`  以"性感"的方式注释当前行 
+4. `<leader>ci`  执行反注释操作  即注释未被注释的  取消注释 已被注释的
+5. `<leader>ca`  转换默认的注释方式   eg.c++的// 与/* */
+6. `<leader>c$`  从光标开始到行尾注释
+7. `number<leader>cc` 光标以下number行添加注释
+8. `number<leader>cu` 光标以下number行取消注释
+9. `number<leader>cm` 光标以下number行添加块注释
+
+Normal模式下，几乎所有命令前面都可以指定行数
+Visual模式下执行命令，会对选中的特定区块进行注释/反注释
 
 //个人觉得常用的就这么几个    以后可以更新
 
