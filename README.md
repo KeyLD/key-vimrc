@@ -2,12 +2,12 @@
 
 [TOC]
 
-##1 Plugins
+## 1 Plugins
 
 ### 1.1 vim-surround
 
 
-####1.1.1 Normal mode
+#### 1.1.1 Normal mode
 
 1. ds - 删除一个 surrounding
 2. cs - 改变一个 surrounding
@@ -17,19 +17,19 @@
 6. ySs - yS的整行操作
 7. ySS - 与 ySs 相同
 
-####1.1.2 Visual mode
+#### 1.1.2 Visual mode
 
 s   - 增加一个 surrounding
 S   - 将文本放在新行并在上下增加 surrounding（个人感觉没啥卵用
 
-####1.1.3 Insert mode
+#### 1.1.3 Insert mode
 -----------
 `<CTRL-s>` - 增加一个 surrounding
 `<CTRL-s><CTRL-s>` - 将文本放在新行并在上下增加 surrounding（个人感觉没啥卵用
 `<CTRL-g>s` -  与 ` <CTRL-s>` 相同
 `<CTRL-g>S` -  与 `<CTRL-s><CTRL-s>` 相同
 
-####1.1.4 实际操作
+#### 1.1.4 实际操作
 (以下  * 代表光标处)
 ##### cs 命令  代表 change surround
 
@@ -52,7 +52,7 @@ fo*o             | `ysiwt<html>` | `<html>foo</html>`
 foo quu*x baz |    yss"        | "foo quux baz"
 foo quu*x baz  |   ySS"        | "foo quux baz
 
-#####ds 命令 代表  delete surround
+##### ds 命令 代表  delete surround
 只需`ds(surrounding)`即可 不加()
 
 ---
