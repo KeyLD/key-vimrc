@@ -3,7 +3,6 @@
 " allow plugins by file type (required for plugins!)
 filetype plugin on
 filetype indent on
-let g:filetypesuffix = expand("%:e")
 
 " fold setting
 set foldenable
@@ -17,7 +16,8 @@ set cindent
 set smartindent
 " tabs and spaces handling
 set expandtab
-if(g:filetypesuffix=='rb')
+
+if &filetype == "ruby"
     set tabstop=2
     set softtabstop=2
     set shiftwidth=2
@@ -26,6 +26,7 @@ else
     set softtabstop=4
     set shiftwidth=4
 endif
+
 " highlight cursor line and column
 set cursorline
 " set cursorcolumn
@@ -99,60 +100,6 @@ if has("gui_running")
 endif
 
 let mapleader = ","
-
-"""""               new file
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec ":call SetTitle()"
-func SetTitle()
-    if g:filetypesuffix == 'sh'
-        call setline(1,"\#!/bin/zsh")
-        call append(line("."), "")
-    elseif g:filetypesuffix == 'py'
-        call setline(1,"#!/usr/bin/env python")
-        call append(line("."),"# coding=utf-8")
-        call append(line(".")+1, "")
-    elseif g:filetypesuffix == 'rb'
-        call setline(1,"#!/usr/bin/env ruby")
-        call append(line("."),"# encoding: utf-8")
-        call append(line(".")+1, "")
-    elseif g:filetypesuffix == 'md'
-        call setline(1,"<head><meta charset=\"UTF-8\"></head>")
-    else
-        call setline(1, "/* ***********************************************************************")
-        call append(line("."), "    > File Name: ".expand("%"))
-        call append(line(".")+1, "    > Author: Key")
-        call append(line(".")+2, "    > Mail: keyld777@gmail.com")
-        call append(line(".")+3, "    > Created Time: ".strftime("%c"))
-        call append(line(".")+4, " ********************************************************************** */")
-    endif
-    if g:filetypesuffix == 'cpp'
-        call append(line(".")+5, "#include <bits/stdc++.h>")
-        call append(line(".")+6, "")
-        call append(line(".")+7, "#define each(i, n) for (int(i) = 0; (i) < (n); (i)++)")
-        call append(line(".")+8, "#define reach(i, n) for (int(i) = n - 1; (i) >= 0; (i)--)")
-        call append(line(".")+9, "#define range(i, st, en) for (int(i) = (st); (i) <= (en); (i)++)")
-        call append(line(".")+10, "#define rrange(i, st, en) for (int(i) = (en); (i) >= (st); (i)--)")
-        call append(line(".")+11, "#define fill(ary, num) memset((ary), (num), sizeof(ary))")
-        call append(line(".")+12, "")
-        call append(line(".")+13, "using namespace std;")
-        call append(line(".")+14, "typedef long long ll;")
-        call append(line(".")+15, "typedef pair<int,int> pii;")
-        call append(line(".")+16, "")
-    endif
-    if g:filetypesuffix == 'c'
-        call append(line(".")+6, "#include <stdio.h>")
-        call append(line(".")+7, "")
-    endif
-    if g:filetypesuffix == 'h'
-        call append(line(".")+6, "#ifndef _".toupper(expand("%:r"))."_H")
-        call append(line(".")+7, "#define _".toupper(expand("%:r"))."_H")
-        call append(line(".")+8, "#endif")
-    endif
-    if g:filetypesuffix == 'java'
-        call append(line(".")+6,"public class ".expand("%:r"))
-        call append(line(".")+7,"")
-    endif
-endfunc
-autocmd BufNewFile * normal G
 
 """""""""""""""   onekey to complie or run
 func! CompileGcc()
@@ -266,7 +213,7 @@ Plugin 'Chiel92/vim-autoformat'             " Pre-written way to format code
 Plugin 'Yggdroot/indentLine'                " IndentLine
 Plugin 'mhinz/vim-startify'                 " start screen
 
-" Colorscheme 
+" Colorscheme
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'liuchengxu/space-vim-dark'
 
@@ -349,17 +296,17 @@ imap <F3> <ESC> :NERDTreeToggle<CR>
 
 " Nerdtree Git Plugin
 let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "✹ ",
-    \ "Staged"    : "✚ ",
-    \ "Untracked" : "✭ ",
-    \ "Renamed"   : "➜ ",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖ ",
-    \ "Dirty"     : "✗ ",
-    \ "Clean"     : "✔︎ ",
-    \ 'Ignored'   : '☒ ',
-    \ "Unknown"   : "?"
-    \ }
+            \ "Modified"  : "✹ ",
+            \ "Staged"    : "✚ ",
+            \ "Untracked" : "✭ ",
+            \ "Renamed"   : "➜ ",
+            \ "Unmerged"  : "═",
+            \ "Deleted"   : "✖ ",
+            \ "Dirty"     : "✗ ",
+            \ "Clean"     : "✔︎ ",
+            \ 'Ignored'   : '☒ ',
+            \ "Unknown"   : "?"
+            \ }
 
 " Nerd Font ---------------------------------
 " set guifont=Ubuntu\ Mono\ derivative\ Powerline\ Regular\ 14
@@ -382,6 +329,7 @@ let g:syntastic_check_on_open = 1
 " set error or warning signs
 " let g:syntastic_cpp_cpplint_exec = "cpplint"
 " let g:syntastic_cpp_checkers = ['cpplint']
+autocmd BufNewFile,BufRead *.nasm set filetype=nasm
 let g:syntastic_error_symbol = '✗ '
 let g:syntastic_warning_symbol = '⚠ '
 let g:syntastic_style_error_symbol = '✠ '
@@ -416,7 +364,7 @@ nmap ycm :YcmDiags<CR>
 let g:vim_markdown_folding_disabled=1
 " Highlight YAML frontmatter
 let g:vim_markdown_frontmatter=1
-" Syntax Concealing 
+" Syntax Concealing
 let g:vim_markdown_conceal = 0
 " LeTeX math
 let g:tex_conceal = ""
@@ -447,3 +395,70 @@ let g:closetag_filenames = '*html*'
 "let g:user_emmet_install_global = 0
 "autocmd FileType html,css EmmetInstall
 "let g:user_emmet_leader_key='<C-M>'
+
+"""""               new file
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec ":call SetTitle()"
+func SetTitle()
+    if &filetype == "sh"
+        call setline(1,"#!/bin/zsh")
+        call append(line("."), "")
+    elseif &filetype == "python"
+        call setline(1,"#!/usr/bin/env python")
+        call append(line("."),"# coding=utf-8")
+        call append(line(".")+1, "")
+    elseif &filetype == "ruby"
+        call setline(1,"#!/usr/bin/env ruby")
+        call append(line("."),"# encoding: utf-8")
+        call append(line(".")+1, "")
+    elseif &filetype == "markdown"
+        call setline(1,"<head><meta charset=\"UTF-8\"></head>")
+    elseif &filetype == "c"
+        call setline(1,"/* ***********************************************************************")
+        call append(line("."),"    > File Name: ".expand("%"))
+        call append(line(".")+1,"    > Author: Key")
+        call append(line(".")+2,"    > Mail: keyld777@gmail.com")
+        call append(line(".")+3,"    > Created Time: ".strftime("%c"))
+        call append(line(".")+4,"*********************************************************************** */")
+        call append(line(".")+5, "#include <stdio.h>")
+        call append(line(".")+6, "")
+    elseif &filetype == "java"
+        call setline(1,"/* ***********************************************************************")
+        call append(line("."),"    > File Name: ".expand("%"))
+        call append(line(".")+1,"    > Author: Key")
+        call append(line(".")+2,"    > Mail: keyld777@gmail.com")
+        call append(line(".")+3,"    > Created Time: ".strftime("%c"))
+        call append(line(".")+4,"*********************************************************************** */")
+        call append(line(".")+5,"public class ".expand("%:r"))
+        call append(line(".")+6,"")
+    elseif expand("%:e") == "cpp"
+        call setline(1,"/* ***********************************************************************")
+        call append(line("."),"    > File Name: ".expand("%"))
+        call append(line(".")+1,"    > Author: Key")
+        call append(line(".")+2,"    > Mail: keyld777@gmail.com")
+        call append(line(".")+3,"    > Created Time: ".strftime("%c"))
+        call append(line(".")+4,"*********************************************************************** */")
+        call append(line(".")+5, "#include <bits/stdc++.h>")
+        call append(line(".")+6, "")
+        call append(line(".")+7, "#define each(i, n) for (int(i) = 0; (i) < (n); (i)++)")
+        call append(line(".")+8, "#define reach(i, n) for (int(i) = n - 1; (i) >= 0; (i)--)")
+        call append(line(".")+9, "#define range(i, st, en) for (int(i) = (st); (i) <= (en); (i)++)")
+        call append(line(".")+10, "#define rrange(i, st, en) for (int(i) = (en); (i) >= (st); (i)--)")
+        call append(line(".")+11, "#define fill(ary, num) memset((ary), (num), sizeof(ary))")
+        call append(line(".")+12, "")
+        call append(line(".")+13, "using namespace std;")
+        call append(line(".")+14, "typedef long long ll;")
+        call append(line(".")+15, "typedef pair<int,int> pii;")
+        call append(line(".")+16, "")
+    elseif expand("%:e") == "h"
+        call setline(1,"/* ***********************************************************************")
+        call append(line("."),"    > File Name: ".expand("%"))
+        call append(line(".")+1,"    > Author: Key")
+        call append(line(".")+2,"    > Mail: keyld777@gmail.com")
+        call append(line(".")+3,"    > Created Time: ".strftime("%c"))
+        call append(line(".")+4,"*********************************************************************** */")
+        call append(line(".")+5, "#ifndef _".toupper(expand("%:r"))."_H")
+        call append(line(".")+6, "#define _".toupper(expand("%:r"))."_H")
+        call append(line(".")+7, "#endif")
+    endif
+endfunc
+autocmd BufNewFile * normal G
